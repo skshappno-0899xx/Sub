@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>SHAPPNO LV UP - Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:#000;color:#fff;min-height:100vh;-webkit-font-smoothing:antialiased}
+:root{--bg:#000;--card:#08080c;--card2:#101015;--line:#1a1a22;--line2:#25252e;--txt:#fff;--mut:#8a8a95;--dim:#55555f;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--lightblue:#38bdf8;--purple:#8b5cf6;--gold:#f59e0b}
+.mono{font-family:'JetBrains Mono',monospace}
+.orb{font-family:'Orbitron',sans-serif}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:#262626;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#3a3a3a}
+body{background:radial-gradient(ellipse at top,#0a1020 0%,#000 55%);padding-bottom:80px;overflow-x:hidden}
+*{-webkit-tap-highlight-color:transparent}
+
+/* ============ TOP BAR ============ */
+.top{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1300px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:800;letter-spacing:2px;color:#fff}
+.logo img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #38bdf8;box-shadow:0 0 12px rgba(56,189,248,0.7),0 0 24px rgba(56,189,248,0.4);animation:dglow 2s ease-in-out infinite alternate}
+@keyframes dglow{0%{box-shadow:0 0 12px rgba(56,189,248,0.7),0 0 24px rgba(56,189,248,0.4)}100%{box-shadow:0 0 20px rgba(56,189,248,1),0 0 40px rgba(56,189,248,0.7)}}
+.act{display:flex;gap:6px;flex-wrap:wrap}
+.bs{padding:9px 14px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;border-radius:8px;cursor:pointer;text-decoration:none;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:all 0.2s;white-space:nowrap}
+.bw{background:#38bdf8;color:#000}
+.bw:hover{opacity:0.88}
+.bgold{background:#f59e0b;color:#000}
+.bgold:hover{opacity:0.88}
+.bg{background:transparent;border-color:var(--line2);color:var(--mut)}
+.bg:hover{border-color:var(--red);color:var(--red)}
+
+/* ============ STATS BAR ============ */
+.stats{max-width:1300px;margin:0 auto;padding:18px 16px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}}
+.sc{background:linear-gradient(145deg,#0b1220,#080c14);border:1px solid #1a2740;border-radius:14px;padding:16px 14px;text-align:center;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,transparent)}
+.sc .l{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#7c869a;margin-bottom:8px}
+.sc .v{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.sc .v.g{color:#22c55e}
+.sc .v.b{color:#38bdf8}
+.sc .v.o{color:#f59e0b}
+@media(max-width:400px){.sc .v{font-size:18px}.sc .l{font-size:8px}}
+
+/* ============ MAIN ============ */
+.main{max-width:1300px;margin:0 auto;padding:18px 14px 80px}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+
+/* ============ ACCOUNT CARD ============ */
+.cc{position:relative;background:linear-gradient(145deg,#0b1220 0%,#080c14 100%);border:1px solid #1a2740;border-radius:16px;overflow:hidden;transition:border-color 0.25s,box-shadow 0.25s}
+.cc:hover{border-color:#1e3a5f;box-shadow:0 0 0 1px rgba(56,189,248,0.08),0 8px 32px rgba(0,0,0,0.5)}
+.tagline{padding:14px 16px 10px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:5px 12px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#d0d5dd}
+.pill.uid{font-family:'JetBrains Mono',monospace;letter-spacing:0.4px;font-size:10px}
+.pill.mode-br{background:rgba(56,189,248,0.1);border-color:rgba(56,189,248,0.4);color:#38bdf8}
+.pill.mode-lw{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.4);color:#a78bfa}
+.status-top{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.5);border-radius:20px;padding:5px 12px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#22c55e;white-space:nowrap;margin-left:auto}
+.status-top .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:pl 1.4s infinite}
+.status-top.paused{background:rgba(138,138,149,0.12);border-color:rgba(138,138,149,0.4);color:#8a8a95}
+.status-top.paused .dot{background:#8a8a95;box-shadow:none;animation:none}
+.status-top.match{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.5);color:#f59e0b}
+.status-top.match .dot{background:#f59e0b;box-shadow:0 0 6px #f59e0b}
+.status-top.online{background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.5);color:#38bdf8}
+.status-top.online .dot{background:#38bdf8;box-shadow:0 0 6px #38bdf8}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:0.4}}
+.acc-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(56,189,248,0.08),rgba(56,189,248,0.02));border-top:1px solid rgba(56,189,248,0.1);border-bottom:1px solid rgba(56,189,248,0.1)}
+.avatar{width:48px;height:48px;border-radius:11px;background:linear-gradient(135deg,#1e3a5f,#0f1e33);border:1px solid rgba(56,189,248,0.3);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:19px;color:#fff;flex-shrink:0;box-shadow:inset 0 0 16px rgba(56,189,248,0.1)}
+.hinfo{flex:1;min-width:0}
+.hinfo h3{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:800;letter-spacing:0.3px;color:#fff;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hinfo p{font-family:'JetBrains Mono',monospace;font-size:10px;color:#7c869a;letter-spacing:0.3px;display:flex;align-items:center;gap:5px}
+.uid-copy{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:5px;padding:2px 5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all 0.2s}
+.uid-copy:hover{background:rgba(56,189,248,0.2);border-color:#38bdf8}
+.uid-copy svg{width:10px;height:10px;stroke:#38bdf8}
+.lvl-badge{background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.45);border-radius:8px;padding:6px 11px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.8px;color:#38bdf8;white-space:nowrap;flex-shrink:0}
+.cd{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
+@media(max-width:560px){.cd{grid-template-columns:1fr}}
+.row{display:flex;align-items:center;gap:7px;font-size:12px;min-width:0}
+.row .k{color:var(--mut);font-size:9px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;min-width:76px;font-family:'Orbitron',sans-serif}
+.row .v{color:#fff;font-weight:700;font-family:'JetBrains Mono',monospace;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.progress-box{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.2)}
+.progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:11px;font-weight:800;font-family:'Orbitron',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.progress-head .l{color:#fff}
+.progress-head .r{color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:12px}
+.progress-track{width:100%;height:14px;background:#0a0a0a;border-radius:8px;overflow:hidden;position:relative;border:1px solid #1a2740}
+.progress-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#7dd3fc,#38bdf8);border-radius:8px;transition:width 0.6s ease;box-shadow:0 0 12px rgba(56,189,248,0.6);position:relative;overflow:hidden}
+.progress-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);animation:shine 2s infinite}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.progress-nums{display:flex;justify-content:space-between;margin-top:7px;font-size:10px;color:#7c869a;font-family:'JetBrains Mono',monospace;font-weight:600}
+.progress-nums .need{color:#f59e0b}
+.statrow{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.25)}
+.sc2{padding:12px 6px;text-align:center;border-right:1px solid rgba(255,255,255,0.05)}
+.sc2:last-child{border-right:none}
+.sc2 .l{font-size:8px;color:var(--mut);letter-spacing:1.3px;text-transform:uppercase;font-weight:800;margin-bottom:5px;font-family:'Orbitron',sans-serif}
+.sc2 .v{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:800;color:#fff;word-break:break-all}
+.sc2 .v.g{color:#22c55e}
+.acc-actions{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:12px 14px 14px}
+.acc-actions button{padding:11px 6px;background:#1c1c1e;border:1px solid #2a2a2e;border-radius:10px;color:#fff;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;cursor:pointer;transition:all 0.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0}
+.acc-actions button:hover{background:#242428;border-color:#3a3a40}
+.acc-actions button svg{width:14px;height:14px;flex-shrink:0}
+.acc-actions button:disabled{opacity:0.5;cursor:not-allowed}
+.btn-pause{color:#f59e0b}
+.btn-pause:hover{border-color:#f59e0b!important;background:rgba(245,158,11,0.08)!important}
+.btn-pause svg{stroke:#f59e0b}
+.btn-restart{color:#38bdf8}
+.btn-restart:hover{border-color:#38bdf8!important;background:rgba(56,189,248,0.08)!important}
+.btn-restart svg{stroke:#38bdf8}
+.btn-refresh{color:#22c55e}
+.btn-refresh:hover{border-color:#22c55e!important;background:rgba(34,197,94,0.08)!important}
+.btn-refresh svg{stroke:#22c55e}
+.btn-delete{color:#ef4444;border-color:rgba(239,68,68,0.4)!important;background:rgba(239,68,68,0.05)!important}
+.btn-delete:hover{border-color:#ef4444!important;background:rgba(239,68,68,0.12)!important}
+.btn-delete svg{stroke:#ef4444}
+@media(max-width:400px){.acc-actions{gap:5px;padding:10px 10px 12px}.acc-actions button{padding:9px 3px;font-size:8px;gap:3px}.acc-actions button svg{width:12px;height:12px}}
+.empty{text-align:center;padding:60px 20px;color:var(--mut)}
+.empty .big{display:flex;justify-content:center;margin-bottom:12px;opacity:0.25}
+.empty .big svg{width:44px;height:44px}
+</style>
+</head>
+<body>
+<style>
+/* ============ MODAL / POPUP ============ */
+.mtop{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:300;padding:18px;overflow-y:auto}
+.mtop.on{display:flex !important}
+.mbox{background:#141414;border:1px solid #262626;border-radius:18px;padding:22px;max-width:520px;width:100%;position:relative;font-family:'Inter',sans-serif;margin:auto}
+.mh-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px}
+.mh-row h3{font-size:17px;font-weight:700;color:#fff;letter-spacing:0.2px}
+.mclose{width:34px;height:34px;border-radius:50%;border:1px solid #2a2a2a;background:transparent;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mclose:hover{background:#1e1e1e}
+.mclose svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+
+/* ============ CONFIRM DIALOG ============ */
+.conf{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:400;padding:18px}
+.conf.on{display:flex}
+.conf-box{background:#141414;border:1px solid #262626;border-radius:16px;padding:22px;max-width:400px;width:100%;font-family:'Inter',sans-serif}
+.conf-head{font-size:16px;font-weight:700;color:#fff;margin-bottom:14px;text-align:center}
+.conf-msg{font-size:13px;line-height:1.65;color:#a8a8a8;text-align:center;margin-bottom:22px}
+.conf-msg b{color:#38bdf8;font-weight:800}
+.conf-btns{display:flex;gap:10px}
+.conf-btns button{flex:1;padding:13px 10px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all 0.2s}
+.conf-yes{background:#38bdf8;color:#000}
+.conf-yes:hover{background:#7dd3fc}
+.conf-no{background:#1c1c1e;color:#fff;border:1px solid #2a2a2e!important}
+.conf-no:hover{background:#242428}
+
+/* ============ ADD JOB FORM ============ */
+.anote{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:14px 16px;font-size:12px;color:#888;line-height:1.6;margin-bottom:20px}
+.anote strong{color:#fff}
+.anote .hl{color:#38bdf8;font-weight:700}
+.tabs{display:flex;gap:4px;background:#0a0a0a;padding:4px;border-radius:12px;margin-bottom:18px;border:1px solid #1a1a1a;flex-wrap:wrap}
+.tb{flex:1;min-width:90px;padding:11px;text-align:center;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:9px;cursor:pointer;color:#666;border:none;background:transparent;transition:all 0.2s;font-family:'Inter',sans-serif}
+.tb.on{background:#38bdf8;color:#000}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:10px;color:#666;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.field input,.field textarea{width:100%;background:#0a0a0a;border:1.5px solid #1e1e1e;border-radius:12px;padding:14px 15px;color:#fff;font-size:14px;font-family:'JetBrains Mono',monospace;outline:none;transition:all 0.2s;letter-spacing:0.3px;resize:none}
+.field input:focus,.field textarea:focus{border-color:#38bdf8;background:#0c1a24}
+.field input::placeholder,.field textarea::placeholder{color:#3a3a3a;font-family:'Inter',sans-serif}
+.err{background:#1a0a0a;border:1px solid #4a1a1a;color:#ff4444;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none;line-height:1.5}
+.err.on{display:block}
+.err strong{color:#ff6666}
+.info{background:#0a1a2a;border:1px solid #1a3a5a;color:#38bdf8;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none;line-height:1.5}
+.info.on{display:block}
+.submit{width:100%;padding:16px;border-radius:12px;background:#38bdf8;color:#000;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:8px}
+.submit:hover{background:#7dd3fc}
+.submit:disabled{opacity:0.5;cursor:not-allowed}
+.result{background:#0a1a0a;border:1px solid #1a4a1a;border-radius:12px;padding:18px;margin-bottom:20px;display:none}
+.result.on{display:block}
+.result h3{color:#4ade80;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+.result .row2{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #142a14;font-size:12px}
+.result .row2:last-child{border:none}
+.result .k2{color:#666;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.result .v2{color:#fff;font-family:'JetBrains Mono',monospace;font-weight:700}
+.hide{display:none!important}
+.badge{display:inline-block;padding:3px 8px;border-radius:5px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.badge.br{background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3)}
+.badge.lw{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.bulk-info{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:14px 16px;font-size:12px;color:#a8a8a8;line-height:1.7;margin-bottom:14px}
+.bulk-info strong{color:#38bdf8;font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:11px}
+.bulk-info span{font-family:'JetBrains Mono',monospace;color:#7dd3fc;font-size:11px}
+.bulk-preview{margin-top:14px;padding:14px 16px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);border-radius:10px}
+.bulk-preview-title{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#22c55e;margin-bottom:6px}
+.bulk-preview-count{font-family:'JetBrains Mono',monospace;font-size:14px;color:#fff;font-weight:700}
+
+/* ============ AUTO SETTINGS ============ */
+.auto-section{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #1a1a1a}
+.auto-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.auto-section-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#38bdf8;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.auto-section-title::before{content:'';width:3px;height:12px;background:#38bdf8;border-radius:2px}
+.auto-switch{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:10px;cursor:pointer;margin-bottom:12px;transition:all 0.2s}
+.auto-switch:hover{border-color:#f59e0b}
+.auto-switch input{width:20px;height:20px;accent-color:#f59e0b;cursor:pointer;flex-shrink:0}
+.auto-switch span{font-size:13px;font-weight:700;color:#f59e0b}
+.auto-switch.green input{accent-color:#22c55e}
+.auto-switch.green span{color:#22c55e}
+.auto-switch.blue input{accent-color:#38bdf8}
+.auto-switch.blue span{color:#38bdf8}
+.auto-switch.purple input{accent-color:#8b5cf6}
+.auto-switch.purple span{color:#a78bfa}
+.auto-field{margin-bottom:12px}
+.auto-field label{display:block;font-size:10px;font-weight:800;color:#8a8a95;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.auto-field input[type="number"],.auto-field select{width:100%;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:10px;padding:11px 14px;color:#fff;font-size:14px;outline:none;font-family:'Inter',sans-serif}
+.auto-field input[type="number"]:focus,.auto-field select:focus{border-color:#f59e0b}
+.auto-field.disabled{opacity:0.4;pointer-events:none}
+.auto-btns{display:flex;gap:10px;margin-top:16px}
+.auto-btns button{flex:1;padding:13px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;font-weight:800;cursor:pointer;border:none;transition:all 0.2s}
+.auto-save{background:#f59e0b;color:#000}
+.auto-save:hover{background:#fbbf24}
+.auto-clear{background:#1c1c1e;color:#fff;border:1px solid #2a2a2a!important}
+.auto-clear:hover{background:#242428}
+
+/* ============ LOCK PAGE ============ */
+.lock-view{padding:60px 20px;text-align:center;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lock-icon{width:100px;height:100px;border-radius:50%;background:rgba(239,68,68,0.08);border:2px solid #ef4444;display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;color:#ef4444;animation:lockPulse 2s ease-in-out infinite}
+@keyframes lockPulse{0%,100%{box-shadow:0 0 20px rgba(239,68,68,0.4)}50%{box-shadow:0 0 40px rgba(239,68,68,0.8)}}
+.lock-icon svg{width:52px;height:52px;stroke:#ef4444;fill:none;stroke-width:2}
+.lock-title{font-family:'Orbitron',sans-serif;font-size:32px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:14px}
+.lock-sub{font-size:16px;color:#a8a8a8;line-height:1.7;margin-bottom:8px;max-width:480px}
+.lock-sub2{font-size:13px;color:#ef4444;font-weight:700;letter-spacing:1px;margin-bottom:36px}
+
+/* ============ LOCK ADMIN PANEL ============ */
+.lock-admin{max-width:1300px;margin:0 auto;padding:24px 16px 80px}
+.lock-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:24px}
+.lock-header h1{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff}
+.lock-header h1 span{color:#38bdf8}
+.lock-toggle-btn{padding:12px 24px;border-radius:10px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.2s}
+.lock-on{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.lock-on:hover{box-shadow:0 8px 24px rgba(239,68,68,0.5)}
+.lock-off{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff}
+.lock-off:hover{box-shadow:0 8px 24px rgba(34,197,94,0.5)}
+.lock-status{padding:14px 18px;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8a8a95}
+.lock-status .dot{width:10px;height:10px;border-radius:50%;background:#555}
+.lock-status .dot.on{background:#ef4444;box-shadow:0 0 12px #ef4444}
+.lock-status .dot.off{background:#22c55e;box-shadow:0 0 12px #22c55e}
+.lock-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
+.lock-stat{background:linear-gradient(145deg,#0b1220,#080c14);border:1px solid #1a2740;border-radius:14px;padding:18px;text-align:center}
+.lock-stat .l{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#7c869a;margin-bottom:8px}
+.lock-stat .v{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:800;color:#fff}
+.lock-stat .v.g{color:#22c55e}
+.lock-stat .v.b{color:#38bdf8}
+.lock-stat .v.o{color:#f59e0b}
+.lock-download-btn{width:100%;padding:16px;border-radius:12px;background:linear-gradient(135deg,#38bdf8,#0284c7);color:#fff;border:none;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-bottom:22px;box-shadow:0 6px 24px rgba(56,189,248,0.3)}
+.lock-download-btn:hover{box-shadow:0 8px 32px rgba(56,189,248,0.5)}
+.json-box{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:16px;max-height:500px;overflow:auto}
+.json-box pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8ff9b;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+.json-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#38bdf8;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+
+
+<!-- ==================== LOCK VIEW (shown when website locked) ==================== -->
+<div id="lockView" class="lock-view" style="display:none">
+<div class="lock-icon">
+<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+</div>
+<div class="lock-title">Website Off</div>
+<div class="lock-sub">Owner Website বন্ধ করে দিয়েছেন।</div>
+<div class="lock-sub2">এখন তোরা মূড়ি খাঁ গে যা 😎</div>
+</div>
+
+<!-- ==================== LOCK ADMIN PANEL ==================== -->
+<div id="lockAdmin" style="display:none">
+<div class="lock-admin">
+<div class="lock-header">
+<h1>Site Control <span>Panel</span></h1>
+<button id="lockToggleBtn" class="lock-toggle-btn lock-off" onclick="toggleLock()">Loading...</button>
+</div>
+
+<div class="lock-status">
+<span class="dot" id="lockDot"></span>
+<span id="lockStatusText">Checking status...</span>
+</div>
+
+<div class="lock-stats">
+<div class="lock-stat">
+<div class="l">Total Accounts</div>
+<div class="v b" id="lkTotalAccounts">0</div>
+</div>
+<div class="lock-stat">
+<div class="l">Total EXP</div>
+<div class="v g" id="lkTotalExp">0</div>
+</div>
+<div class="lock-stat">
+<div class="l">Running Now</div>
+<div class="v o" id="lkRunning">0</div>
+</div>
+</div>
+
+<button class="lock-download-btn" onclick="downloadAccountsJSON()">
+⬇ Download All Accounts (JSON)
+</button>
+
+<div class="json-box">
+<div class="json-title">📋 All Account Data (JSON View)</div>
+<pre id="lkJsonView">Loading...</pre>
+</div>
+</div>
+</div>
+
+<!-- ==================== MAIN DASHBOARD ==================== -->
+<div id="mainApp" style="display:none">
+
+<div class="top">
+<div class="top-in">
+<div class="logo">
+<img src="https://files.catbox.moe/1o431f.jpg" alt="Logo">
+<span>SHAPPNO LV UP</span>
+</div>
+<div class="act">
+<button class="bs bgold" onclick="openAutoSettings()">⚙ AUTO</button>
+<button class="bs bw" onclick="openAddJob()">+ Add New Job</button>
+</div>
+</div>
+</div>
+
+<!-- ============ STATS BAR ============ -->
+<div class="stats">
+<div class="sc">
+<div class="l">Running</div>
+<div class="v o" id="statRunning">0</div>
+</div>
+<div class="sc">
+<div class="l">Total EXP</div>
+<div class="v g" id="statExp">0</div>
+</div>
+<div class="sc">
+<div class="l">Total Accounts</div>
+<div class="v b" id="statAccounts">0</div>
+</div>
+</div>
+
+<div class="main">
+<div class="grid" id="grid"></div>
+</div>
+
+</div>
+
+<!-- ==================== CONFIRM DIALOG ==================== -->
+<div class="conf" id="cm">
+<div class="conf-box">
+<div class="conf-head" id="cm-t">Confirm</div>
+<div class="conf-msg" id="cm-m">Are You Sure?</div>
+<div class="conf-btns">
+<button class="conf-yes" id="cm-y">Yes</button>
+<button class="conf-no" id="cm-n">No</button>
+</div>
+</div>
+</div>
+
+<!-- ==================== ADD NEW JOB MODAL ==================== -->
+<div class="mtop" id="addJobModal" style="display:none">
+<div class="mbox">
+<div class="mh-row">
+<h3>Add New Job</h3>
+<button class="mclose" onclick="closeAddJob()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+
+<div class="anote">
+<strong>Auto Mode:</strong> Level <span class="hl">3+</span> → Lone Wolf, Level <span class="hl">1-2</span> → Battle Royale। Mode স্বয়ংক্রিয়ভাবে সিলেক্ট হবে।
+<br><br>
+<strong>Note:</strong> Same UID যতবার ইচ্ছা add করতে পারবে। Delete করার পর আবার দিলে fresh data আসবে।
+</div>
+
+<div class="tabs">
+<button type="button" class="tb on" data-t="guest" onclick="swTab('guest')">UID + Password</button>
+<button type="button" class="tb" data-t="bulk" onclick="swTab('bulk')">Bulk Upload</button>
+</div>
+
+<div id="errBox" class="err"></div>
+<div id="infoBox" class="info"></div>
+<div id="resultBox" class="result"></div>
+
+<div id="fg">
+<div class="field">
+<label>Free Fire UID</label>
+<input type="text" id="uid" placeholder="Enter your numeric UID" autocomplete="off" inputmode="numeric">
+</div>
+<div class="field">
+<label>Password</label>
+<input type="text" id="password" placeholder="Enter your account password" autocomplete="off">
+</div>
+<button type="button" class="submit" id="btnGuest" onclick="submitGuest()">Start Job</button>
+</div>
+
+<div id="fb" class="hide">
+<div class="bulk-info">
+<strong>Upload .txt or .json file</strong><br>
+<span>.txt format: uid:password per line</span><br>
+<span>.json format: [{"uid":"...","password":"..."}]</span>
+</div>
+<input type="file" id="bulkFile" accept=".txt,.json" style="width:100%;padding:14px;background:#0a0a0a;border:1.5px dashed rgba(56,189,248,0.5);border-radius:12px;color:#fff;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px">
+<div class="bulk-preview" id="bulkPreview" style="display:none">
+<div class="bulk-preview-title">Preview</div>
+<div class="bulk-preview-count" id="bulkCount">0 accounts found</div>
+</div>
+<button type="button" class="submit" id="btnBulk" onclick="submitBulk()" style="margin-top:14px">Upload All</button>
+</div>
+
+</div>
+</div>
+
+<!-- ==================== AUTO SETTINGS MODAL ==================== -->
+<div class="mtop" id="autoModal" style="display:none">
+<div class="mbox">
+<div class="mh-row">
+<h3>AUTO Settings</h3>
+<button class="mclose" onclick="closeAutoSettings()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+
+<!-- ========== AUTO DELETE SECTION ========== -->
+<div class="auto-section">
+<div class="auto-section-title">Auto Delete</div>
+
+<div class="auto-switch green">
+<input type="checkbox" id="autoDeleteEnabled" onchange="toggleAutoDeleteField()">
+<label for="autoDeleteEnabled" style="cursor:pointer;flex:1"><span>Enable Auto-Delete</span></label>
+</div>
+
+<div class="auto-field" id="autoDeleteLevelField">
+<label>Target Level (reach then auto-delete)</label>
+<input type="number" id="autoTargetLevel" min="1" max="100" value="22">
+</div>
+</div>
+
+<!-- ========== LW LIMIT SECTION ========== -->
+<div class="auto-section">
+<div class="auto-section-title">Lone Wolf Limit</div>
+
+<div class="auto-switch purple">
+<input type="checkbox" id="lwLimitEnabled" onchange="toggleLwLimitField()">
+<label for="lwLimitEnabled" style="cursor:pointer;flex:1"><span>Enable LW Limit</span></label>
+</div>
+
+<div class="auto-field" id="lwLimitField">
+<label>Max Concurrent LW Accounts</label>
+<input type="number" id="lwLimit" min="1" max="100" value="3">
+</div>
+</div>
+
+<!-- ========== BR LIMIT SECTION ========== -->
+<div class="auto-section">
+<div class="auto-section-title">Battle Royale Limit</div>
+
+<div class="auto-switch blue">
+<input type="checkbox" id="brLimitEnabled" onchange="toggleBrLimitField()">
+<label for="brLimitEnabled" style="cursor:pointer;flex:1"><span>Enable BR Limit</span></label>
+</div>
+
+<div class="auto-field" id="brLimitField">
+<label>Max Concurrent BR Accounts</label>
+<input type="number" id="brLimit" min="1" max="100" value="3">
+</div>
+</div>
+
+<div class="auto-btns">
+<button class="auto-save" onclick="saveAutoSettings()">Save All</button>
+<button class="auto-clear" onclick="closeAutoSettings()">Close</button>
+</div>
+</div>
+</div>
+
+<script>
+
+/* ==================== CONFIG ==================== */
+const LEVELS = {
+    1: 0, 2: 48, 3: 202, 4: 544, 5: 1012, 6: 1844, 7: 2792, 8: 3800,
+    9: 4870, 10: 6004, 11: 7192, 12: 8448, 13: 9776, 14: 11140, 15: 12566,
+    16: 14060, 17: 15610, 18: 17224, 19: 18902, 20: 20632, 21: 22424,
+    22: 24728, 23: 26192, 24: 28166, 25: 30200, 26: 32294, 27: 34448,
+    28: 37804, 29: 41174, 30: 44870, 31: 48852, 32: 53334, 33: 58566,
+    34: 64096, 35: 69994, 36: 76460, 37: 83108, 38: 91128, 39: 99322,
+    40: 108092, 41: 120144, 42: 133266, 43: 147472, 44: 162760, 45: 179126,
+    46: 196572, 47: 215368, 48: 235516, 49: 257010, 50: 279860, 51: 304056,
+};
+
+const SVG = {
+    pause:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>',
+    play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>',
+    trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path></svg>',
+    refresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>',
+    restart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>',
+    copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>',
+    warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="44" height="44"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+    bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
+};
+
+/* ==================== STATE ==================== */
+let TAB = 'guest';
+let BULK_ACCOUNTS = [];
+let IS_LOCK_PAGE = false;
+
+/* ==================== UTILS ==================== */
+function esc(s){if(s==null)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function ago(ts){if(!ts)return'--';const s=Math.floor(Date.now()/1000-ts);if(s<5)return'Just Now';if(s<60)return s+'s Ago';if(s<3600)return Math.floor(s/60)+'m Ago';if(s<86400)return Math.floor(s/3600)+'h Ago';return Math.floor(s/86400)+'d Ago'}
+function fmtNum(n){if(n==null)return '0';return Number(n).toLocaleString()}
+function fmtExp(n){if(n>=1000000)return (n/1000000).toFixed(2)+'M';if(n>=1000)return (n/1000).toFixed(1)+'K';return String(n)}
+
+/* ==================== CONFIRM ==================== */
+function showConfirm(title,msg,yesText,noText){
+    return new Promise(resolve=>{
+        document.getElementById('cm-t').textContent=title;
+        document.getElementById('cm-m').innerHTML=msg;
+        document.getElementById('cm-y').textContent=yesText||'Yes';
+        document.getElementById('cm-n').textContent=noText||'No';
+        document.getElementById('cm').classList.add('on');
+        const clean=()=>{
+            document.getElementById('cm').classList.remove('on');
+            document.getElementById('cm-y').onclick=null;
+            document.getElementById('cm-n').onclick=null;
+        };
+        document.getElementById('cm-y').onclick=()=>{clean();resolve(true)};
+        document.getElementById('cm-n').onclick=()=>{clean();resolve(false)};
+    });
+}
+
+/* ==================== ACCOUNT ACTIONS ==================== */
+async function delAcc(uid){
+    const ok=await showConfirm(
+        'Delete Account',
+        'Fully delete this account from everywhere?<br><br>UID+Password <b>সেভ থাকবে</b> — তুমি আবার add করতে পারবে।',
+        'Yes, Delete',
+        'No, Cancel'
+    );
+    if(!ok)return;
+    try{
+        await fetch('/api/account/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uid,keep_in_file:false})});
+        setTimeout(fetchStats,500);
+        setTimeout(fetchStats,1500);
+        setTimeout(fetchStats,3000);
+    }catch(e){}
+}
+
+async function pauseAcc(uid){
+    try{await fetch('/api/account/pause',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uid})});fetchStats()}catch(e){}
+}
+async function resumeAcc(uid){
+    try{await fetch('/api/account/resume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uid})});fetchStats()}catch(e){}
+}
+
+const restartCooldowns = {};
+async function restartAcc(uid,btn){
+    const now = Date.now();
+    const cd = restartCooldowns[uid] || 0;
+    if(now < cd) return;
+    restartCooldowns[uid] = now + 120000;
+    if(btn){
+        btn.disabled = true;
+        let remain = 120;
+        const orig = btn.innerHTML;
+        const tick = setInterval(()=>{
+            remain--;
+            if(remain <= 0){
+                clearInterval(tick);
+                btn.disabled = false;
+                btn.innerHTML = orig;
+                restartCooldowns[uid] = 0;
+                return;
+            }
+            const m = Math.floor(remain/60);
+            const s = remain % 60;
+            btn.innerHTML = SVG.restart + ' ' + m + ':' + String(s).padStart(2,'0');
+        },1000);
+    }
+    try{
+        const r = await fetch('/api/account/restart',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({uid})
+        });
+        const d = await r.json();
+        if(d.status !== 'ok'){
+            alert('Restart failed: ' + (d.error||'unknown'));
+        }
+        await fetchStats();
+    }catch(e){}
+}
+
+const refreshCooldowns = {};
+async function refreshAcc(uid,btn){
+    const now = Date.now();
+    const cd = refreshCooldowns[uid] || 0;
+    if(now < cd) return;
+    refreshCooldowns[uid] = now + 3000;
+    if(btn){
+        btn.disabled = true;
+        const orig = btn.innerHTML;
+        btn.innerHTML = SVG.refresh + ' ...';
+        setTimeout(()=>{
+            btn.disabled = false;
+            btn.innerHTML = orig;
+            refreshCooldowns[uid] = 0;
+        }, 2500);
+    }
+    try{
+        await fetch('/api/account/resume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uid})});
+        await fetchStats();
+    }catch(e){}
+}
+
+function copyUID(uid,el){
+    const doCopy = (text) => {
+        if(navigator.clipboard && window.isSecureContext){
+            return navigator.clipboard.writeText(text);
+        } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try{document.execCommand('copy')}catch(e){}
+            document.body.removeChild(ta);
+            return Promise.resolve();
+        }
+    };
+    doCopy(uid).then(()=>{
+        const orig = el.innerHTML;
+        el.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        setTimeout(()=>{el.innerHTML = orig}, 1000);
+    }).catch(()=>{});
+}
+
+/* ==================== RENDER ==================== */
+function render(data){
+    const g=document.getElementById('grid');
+    const a=data.accounts||[];
+
+    document.getElementById('statRunning').textContent = fmtNum(data.total_running || 0);
+    document.getElementById('statExp').textContent = fmtExp(data.total_exp || 0);
+    document.getElementById('statAccounts').textContent = fmtNum(data.total_accounts || 0);
+
+    let h='';
+
+    a.forEach(acc=>{
+        const gained=acc.gained_exp||0;
+        const isPaused=acc.status==='PAUSED';
+        const isMatch=acc.status==='IN_MATCH';
+        const nickname=esc(acc.nickname||'Player');
+        const initial=nickname.charAt(0).toUpperCase()||'P';
+        const uid=esc(acc.uid);
+        const region=esc(acc.region||'IND');
+        const mode=(acc.mode||'LW').toUpperCase();
+        const modeCls=mode==='BR'?'pill mode-br':'pill mode-lw';
+        const modeLabel=mode==='BR'?'BATTLE ROYALE':'LONE WOLF';
+        const currentExp = acc.current_exp || 0;
+        const level = acc.level || 1;
+        const nextLevel = level + 1;
+        const baseExp = LEVELS[level] || 0;
+        const nextExp = LEVELS[nextLevel] || (baseExp + 10000);
+        const needExp = nextExp - baseExp;
+        const haveExp = currentExp - baseExp;
+        const pct = Math.min(100, Math.max(0, (haveExp / needExp) * 100));
+        const remainExp = Math.max(0, nextExp - currentExp);
+
+        let statusLabel, statusCls;
+        if(isPaused){statusLabel='PAUSED';statusCls='status-top paused'}
+        else if(isMatch){statusLabel='IN MATCH';statusCls='status-top match'}
+        else if(acc.status==='ONLINE'){statusLabel='ONLINE';statusCls='status-top online'}
+        else {statusLabel='LIVE';statusCls='status-top'}
+
+        h+='<div class="cc">';
+        h+='<div class="tagline">';
+        h+='<span class="'+modeCls+'">'+SVG.bolt+' '+modeLabel+'</span>';
+        h+='<span class="'+statusCls+'"><span class="dot"></span>'+statusLabel+'</span>';
+        h+='</div>';
+        h+='<div class="acc-head">';
+        h+='<div class="avatar">'+initial+'</div>';
+        h+='<div class="hinfo"><h3>'+nickname+'</h3><p>UID: '+uid+' <span class="uid-copy" onclick="copyUID(\''+uid+'\',this)" title="Copy UID">'+SVG.copy+'</span></p></div>';
+        h+='<div class="lvl-badge">Lv.'+level+'</div>';
+        h+='</div>';
+        h+='<div class="cd">';
+        h+='<div class="row"><span class="k">Created</span><span class="v">'+ago(acc.created_at)+'</span></div>';
+        h+='<div class="row"><span class="k">Nickname</span><span class="v">'+nickname+'</span></div>';
+        h+='<div class="row"><span class="k">Region</span><span class="v">'+region+'</span></div>';
+        h+='<div class="row"><span class="k">Updated</span><span class="v">'+ago(acc.last_update)+'</span></div>';
+        h+='</div>';
+        h+='<div class="progress-box">';
+        h+='<div class="progress-head">';
+        h+='<span class="l">Level '+level+' &rarr; L'+(level+1)+'</span>';
+        h+='<span class="r">'+pct.toFixed(1)+'%</span>';
+        h+='</div>';
+        h+='<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>';
+        h+='<div class="progress-nums">';
+        h+='<span>'+haveExp+' / '+needExp+' EXP</span>';
+        h+='<span class="need">'+remainExp+' EXP needed</span>';
+        h+='</div>';
+        h+='</div>';
+        h+='<div class="statrow">';
+        h+='<div class="sc2"><div class="l">EXP</div><div class="v">'+(acc.current_exp||0).toLocaleString()+'</div></div>';
+        h+='<div class="sc2"><div class="l">Initial</div><div class="v">'+(acc.initial_exp||0).toLocaleString()+'</div></div>';
+        h+='<div class="sc2"><div class="l">Gained</div><div class="v g">+'+gained.toLocaleString()+'</div></div>';
+        h+='</div>';
+        h+='<div class="acc-actions">';
+        if(isPaused){
+            h+='<button class="btn-pause" onclick="resumeAcc(\''+uid+'\')">'+SVG.play+' ON</button>';
+        } else {
+            h+='<button class="btn-pause" onclick="pauseAcc(\''+uid+'\')">'+SVG.pause+' PAUSE</button>';
+        }
+        h+='<button class="btn-restart" onclick="restartAcc(\''+uid+'\',this)">'+SVG.restart+' RESTART</button>';
+        h+='<button class="btn-refresh" onclick="refreshAcc(\''+uid+'\',this)">'+SVG.refresh+' REFRESH</button>';
+        h+='<button class="btn-delete" onclick="delAcc(\''+uid+'\')">'+SVG.trash+' DELETE</button>';
+        h+='</div>';
+        h+='</div>';
+    });
+
+    if(a.length===0){
+        h='<div class="empty"><div class="big">'+SVG.warn+'</div><p>No Accounts Yet. Click <b>+ Add New Job</b> To Start.</p></div>'
+    }
+    g.innerHTML=h;
+}
+
+async function fetchStats(){
+    try{
+        const r=await fetch('/api/stats');
+        if(r.status===401){window.location.href='/';return}
+        const d=await r.json();
+        if(d.is_locked){
+            showLockView();
+            return;
+        }
+        render(d);
+    }catch(e){}
+}
+
+/* ==================== VIEW SWITCHING ==================== */
+function showLockView(){
+    document.getElementById('lockView').style.display='flex';
+    document.getElementById('lockAdmin').style.display='none';
+    document.getElementById('mainApp').style.display='none';
+}
+
+function showLockAdmin(){
+    document.getElementById('lockView').style.display='none';
+    document.getElementById('lockAdmin').style.display='block';
+    document.getElementById('mainApp').style.display='none';
+    loadLockAdmin();
+}
+
+function showMainApp(){
+    document.getElementById('lockView').style.display='none';
+    document.getElementById('lockAdmin').style.display='none';
+    document.getElementById('mainApp').style.display='block';
+    fetchStats();
+}
+
+/* ==================== CLOSE ALL MODALS ==================== */
+function closeAllModals(){
+    document.getElementById('addJobModal').classList.remove('on');
+    document.getElementById('autoModal').classList.remove('on');
+    document.getElementById('addJobModal').style.display = 'none';
+    document.getElementById('autoModal').style.display = 'none';
+}
+
+/* ==================== ADD JOB ==================== */
+function openAddJob(){
+    closeAllModals();
+    clearAddJobMsgs();
+    document.getElementById('resultBox').classList.remove('on');
+    setTimeout(()=>{
+        document.getElementById('addJobModal').style.display = 'flex';
+        document.getElementById('addJobModal').classList.add('on');
+    }, 50);
+}
+function closeAddJob(){
+    document.getElementById('addJobModal').classList.remove('on');
+    document.getElementById('addJobModal').style.display = 'none';
+}
+function swTab(t){
+    TAB = t;
+    document.querySelectorAll('.tb').forEach(el=>el.classList.toggle('on', el.dataset.t === t));
+    document.getElementById('fg').classList.toggle('hide', t !== 'guest');
+    document.getElementById('fb').classList.toggle('hide', t !== 'bulk');
+}
+function clearAddJobMsgs(){
+    document.getElementById('errBox').classList.remove('on');
+    document.getElementById('infoBox').classList.remove('on');
+}
+function showErr(msg){
+    const el = document.getElementById('errBox');
+    el.innerHTML = '<strong>Error:</strong> ' + msg;
+    el.classList.add('on');
+}
+
+async function submitGuest(){
+    clearAddJobMsgs();
+    document.getElementById('resultBox').classList.remove('on');
+    const uid = document.getElementById('uid').value.trim();
+    const pw = document.getElementById('password').value.trim();
+    if(!uid || !pw){ showErr('UID and Password are required.'); return; }
+
+    const btn = document.getElementById('btnGuest');
+    btn.disabled = true;
+    btn.textContent = 'Validating...';
+
+    try{
+        const r = await fetch('/api/account/add-job',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({uid, password: pw})
+        });
+        const d = await r.json();
+
+        if(d.status === 'ok'){
+            const badge = d.mode === 'BR' ? '<span class="badge br">BR</span>' : '<span class="badge lw">LW</span>';
+            const resEl = document.getElementById('resultBox');
+            resEl.innerHTML =
+                '<h3>Job Started</h3>' +
+                '<div class="row2"><span class="k2">Mode</span><span class="v2">' + badge + '</span></div>' +
+                '<div class="row2"><span class="k2">Nickname</span><span class="v2">' + esc(d.nickname||'?') + '</span></div>' +
+                '<div class="row2"><span class="k2">Level</span><span class="v2">' + (d.level||1) + '</span></div>' +
+                '<div class="row2"><span class="k2">Region</span><span class="v2">' + esc(d.region||'?') + '</span></div>';
+            resEl.classList.add('on');
+            document.getElementById('uid').value = '';
+            document.getElementById('password').value = '';
+            setTimeout(()=>{ closeAddJob(); fetchStats(); }, 2000);
+        } else {
+            showErr(d.error || 'Unknown error');
+        }
+    }catch(ex){
+        showErr('Network error: ' + ex.message);
+    }
+    btn.disabled = false;
+    btn.textContent = 'Start Job';
+}
+
+document.getElementById('bulkFile')?.addEventListener('change', async function(e){
+    const f = e.target.files[0];
+    if(!f){BULK_ACCOUNTS=[];document.getElementById('bulkPreview').style.display='none';return}
+    const text = await f.text();
+    BULK_ACCOUNTS = [];
+    try{
+        const j = JSON.parse(text);
+        if(Array.isArray(j)){
+            BULK_ACCOUNTS = j.map(x=>{
+                if(typeof x === 'string') return {uid: x.split(':')[0], password: x.split(':')[1]};
+                return {uid: String(x.uid||x.UID||''), password: String(x.password||x.pass||'')};
+            }).filter(x=>x.uid && x.password);
+        } else if(typeof j === 'object'){
+            BULK_ACCOUNTS = Object.entries(j).map(([k,v])=>({uid:k, password:v}));
+        }
+    }catch(ex){
+        BULK_ACCOUNTS = text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l && !l.startsWith('#')).map(l=>{
+            const parts = l.split(':');
+            return {uid: parts[0]?.trim(), password: parts[1]?.trim()};
+        }).filter(x=>x.uid && x.password);
+    }
+    document.getElementById('bulkCount').textContent = BULK_ACCOUNTS.length + ' accounts found';
+    document.getElementById('bulkPreview').style.display = BULK_ACCOUNTS.length > 0 ? 'block' : 'none';
+});
+
+async function submitBulk(){
+    clearAddJobMsgs();
+    document.getElementById('resultBox').classList.remove('on');
+    if(BULK_ACCOUNTS.length === 0){ showErr('Please upload a file with accounts first.'); return; }
+
+    const btn = document.getElementById('btnBulk');
+    btn.disabled = true;
+    btn.textContent = 'Adding ' + BULK_ACCOUNTS.length + ' accounts...';
+
+    try{
+        const r = await fetch('/api/account/bulk-add', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({accounts: BULK_ACCOUNTS})
+        });
+        const d = await r.json();
+        if(d.status === 'ok'){
+            const resEl = document.getElementById('resultBox');
+            resEl.innerHTML =
+                '<h3>Bulk Upload Done</h3>' +
+                '<div class="row2"><span class="k2">Added</span><span class="v2">' + d.added + '</span></div>' +
+                '<div class="row2"><span class="k2">Failed</span><span class="v2">' + d.failed + '</span></div>';
+            resEl.classList.add('on');
+            BULK_ACCOUNTS = [];
+            document.getElementById('bulkFile').value = '';
+            document.getElementById('bulkPreview').style.display = 'none';
+            setTimeout(()=>{ closeAddJob(); fetchStats(); }, 2500);
+        } else {
+            showErr(d.error || 'Bulk add failed');
+        }
+    }catch(ex){
+        showErr('Network error: ' + ex.message);
+    }
+    btn.disabled = false;
+    btn.textContent = 'Upload All';
+}
+
+/* ==================== AUTO SETTINGS ==================== */
+function toggleAutoDeleteField(){
+    const enabled = document.getElementById('autoDeleteEnabled').checked;
+    document.getElementById('autoDeleteLevelField').style.opacity = enabled ? '1' : '0.4';
+    document.getElementById('autoDeleteLevelField').style.pointerEvents = enabled ? 'auto' : 'none';
+}
+
+function toggleLwLimitField(){
+    const enabled = document.getElementById('lwLimitEnabled').checked;
+    document.getElementById('lwLimitField').style.opacity = enabled ? '1' : '0.4';
+    document.getElementById('lwLimitField').style.pointerEvents = enabled ? 'auto' : 'none';
+}
+
+function toggleBrLimitField(){
+    const enabled = document.getElementById('brLimitEnabled').checked;
+    document.getElementById('brLimitField').style.opacity = enabled ? '1' : '0.4';
+    document.getElementById('brLimitField').style.pointerEvents = enabled ? 'auto' : 'none';
+}
+
+async function openAutoSettings(){
+    closeAllModals();
+    setTimeout(async ()=>{
+        document.getElementById('autoModal').style.display = 'flex';
+        document.getElementById('autoModal').classList.add('on');
+        try{
+            const r = await fetch('/api/auto/get');
+            const d = await r.json();
+            if(d.status === 'ok'){
+                document.getElementById('autoDeleteEnabled').checked = !!d.auto_delete_enabled;
+                document.getElementById('autoTargetLevel').value = d.auto_delete_target_level || 22;
+                document.getElementById('lwLimitEnabled').checked = !!d.lw_limit_enabled;
+                document.getElementById('lwLimit').value = d.lw_limit || 3;
+                document.getElementById('brLimitEnabled').checked = !!d.br_limit_enabled;
+                document.getElementById('brLimit').value = d.br_limit || 3;
+                toggleAutoDeleteField();
+                toggleLwLimitField();
+                toggleBrLimitField();
+            }
+        }catch(e){}
+    }, 50);
+}
+
+function closeAutoSettings(){
+    document.getElementById('autoModal').classList.remove('on');
+    document.getElementById('autoModal').style.display = 'none';
+}
+
+async function saveAutoSettings(){
+    const autoDeleteEnabled = document.getElementById('autoDeleteEnabled').checked;
+    const lvl = parseInt(document.getElementById('autoTargetLevel').value || '22');
+    const lwEnabled = document.getElementById('lwLimitEnabled').checked;
+    const lwLimit = parseInt(document.getElementById('lwLimit').value || '3');
+    const brEnabled = document.getElementById('brLimitEnabled').checked;
+    const brLimit = parseInt(document.getElementById('brLimit').value || '3');
+
+    try{
+        // Auto delete toggle + level
+        await fetch('/api/auto/toggle', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({enabled: autoDeleteEnabled})
+        });
+        await fetch('/api/auto/set-level', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({target_level: lvl})
+        });
+        // LW toggle + limit
+        await fetch('/api/auto/toggle-lw', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({enabled: lwEnabled})
+        });
+        // BR toggle + limit
+        await fetch('/api/auto/toggle-br', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({enabled: brEnabled})
+        });
+        // Limits values
+        await fetch('/api/auto/set-limits', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({lw_limit: lwLimit, br_limit: brLimit})
+        });
+        closeAutoSettings();
+        await fetchStats();
+    }catch(e){ alert('Error saving: ' + e.message); }
+}
+
+/* ==================== MODAL BACKDROP CLOSE ==================== */
+document.getElementById('addJobModal').addEventListener('click',e=>{
+    if(e.target.id==='addJobModal') closeAddJob();
+});
+document.getElementById('autoModal').addEventListener('click',e=>{
+    if(e.target.id==='autoModal') closeAutoSettings();
+});
+
+/* ==================== LOCK ADMIN LOGIC ==================== */
+async function loadLockAdmin(){
+    try{
+        const r = await fetch('/api/lock/get');
+        const d = await r.json();
+        updateLockBtn(!!d.locked);
+    }catch(e){}
+    try{
+        const r = await fetch('/api/lock/data');
+        const d = await r.json();
+        document.getElementById('lkTotalAccounts').textContent = fmtNum(d.total_accounts||0);
+        document.getElementById('lkTotalExp').textContent = fmtExp(d.total_exp||0);
+        document.getElementById('lkRunning').textContent = fmtNum(d.total_running||0);
+        document.getElementById('lkJsonView').textContent = JSON.stringify(d.accounts||[], null, 2);
+    }catch(e){
+        document.getElementById('lkJsonView').textContent = 'Error loading data';
+    }
+}
+
+function updateLockBtn(locked){
+    const btn = document.getElementById('lockToggleBtn');
+    const dot = document.getElementById('lockDot');
+    const txt = document.getElementById('lockStatusText');
+    if(locked){
+        btn.textContent = 'Turn OFF Website';
+        btn.className = 'lock-toggle-btn lock-off';
+        dot.className = 'dot on';
+        txt.textContent = 'Website Currently LOCKED (offline for users)';
+    } else {
+        btn.textContent = 'Turn ON Website';
+        btn.className = 'lock-toggle-btn lock-on';
+        dot.className = 'dot off';
+        txt.textContent = 'Website Currently LIVE (active for users)';
+    }
+}
+
+async function toggleLock(){
+    try{
+        const r = await fetch('/api/lock/get');
+        const d = await r.json();
+        const newState = !d.locked;
+        await fetch('/api/lock/toggle',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({locked:newState})
+        });
+        updateLockBtn(newState);
+    }catch(e){}
+}
+
+async function downloadAccountsJSON(){
+    try{
+        const r = await fetch('/api/lock/data');
+        const d = await r.json();
+        const blob = new Blob([JSON.stringify(d.accounts||[], null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'shappno_accounts_' + Date.now() + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }catch(e){}
+}
+
+/* ==================== BOOT ==================== */
+(async function boot(){
+    const path = window.location.pathname;
+    IS_LOCK_PAGE = (path === '/shappno_004x-lock');
+
+    if(IS_LOCK_PAGE){
+        showLockAdmin();
+        setInterval(loadLockAdmin, 10000);
+        return;
+    }
+
+    // Check lock state
+    try{
+        const r = await fetch('/api/lock/get');
+        const d = await r.json();
+        if(d.locked){
+            showLockView();
+            setInterval(async ()=>{
+                try{
+                    const r2 = await fetch('/api/lock/get');
+                    const d2 = await r2.json();
+                    if(!d2.locked) window.location.reload();
+                }catch(e){}
+            }, 5000);
+            return;
+        }
+    }catch(e){}
+
+    showMainApp();
+    setInterval(fetchStats, 8000);
+})();
+
+</script>
+</body>
+</html>
